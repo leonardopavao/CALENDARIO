@@ -7,44 +7,36 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  /* ── TOKENS ─────────────────────────────────────────────── */
   :root {
-    --bg:        #0d0c0b;
-    --surface:   #181614;
-    --border:    #2a2724;
-    --text:      #f0ebe3;
-    --muted:     #7a746e;
-    --amber:     #e8a946;
-    --amber-dim: #a87830;
-    --green:     #5cb885;
-    --red:       #e05a5a;
-    --radius:    12px;
+    --bg:      #0d0c0b;
+    --surface: #181614;
+    --border:  #2a2724;
+    --text:    #f0ebe3;
+    --muted:   #7a746e;
+    --amber:   #e8a946;
+    --green:   #5cb885;
+    --red:     #e05a5a;
+    --radius:  12px;
   }
-
-  /* ── RESET ───────────────────────────────────────────────── */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     background: var(--bg);
     color: var(--text);
     font-family: 'DM Sans', sans-serif;
     font-size: 15px;
-    line-height: 1.5;
     min-height: 100vh;
     padding: 0 0 60px;
   }
 
-  /* ── HEADER ──────────────────────────────────────────────── */
+  /* HEADER */
   .header {
     padding: 36px 24px 24px;
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 16px;
   }
-
-  .date-block .weekday {
+  .weekday {
     font-family: 'DM Mono', monospace;
     font-size: 11px;
     letter-spacing: .15em;
@@ -52,26 +44,16 @@
     color: var(--amber);
     margin-bottom: 4px;
   }
-
-  .date-block .date-full {
+  .date-full {
     font-family: 'DM Serif Display', serif;
     font-size: clamp(28px, 7vw, 42px);
     line-height: 1.1;
-    color: var(--text);
   }
-
-  .date-block .subtitle {
+  .subtitle {
     font-size: 12px;
     color: var(--muted);
     margin-top: 6px;
   }
-
-  .header-actions {
-    display: flex;
-    gap: 10px;
-    flex-shrink: 0;
-  }
-
   .btn-icon {
     width: 40px; height: 40px;
     border-radius: 10px;
@@ -82,14 +64,13 @@
     display: grid; place-items: center;
     font-size: 18px;
     transition: all .2s;
+    flex-shrink: 0;
   }
   .btn-icon:hover { border-color: var(--amber); color: var(--amber); }
   .btn-icon.loading { animation: spin 1s linear infinite; }
 
-  /* ── PROGRESS BAR ────────────────────────────────────────── */
-  .progress-wrap {
-    padding: 16px 24px 0;
-  }
+  /* PROGRESS */
+  .progress-wrap { padding: 16px 24px 0; display: none; }
   .progress-row {
     display: flex;
     justify-content: space-between;
@@ -98,28 +79,13 @@
     margin-bottom: 8px;
     font-family: 'DM Mono', monospace;
   }
-  .progress-bar {
-    height: 3px;
-    background: var(--border);
-    border-radius: 99px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--amber);
-    border-radius: 99px;
-    transition: width .6s cubic-bezier(.4,0,.2,1);
-  }
+  .progress-bar { height: 3px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--amber); border-radius: 99px; transition: width .6s; }
 
-  /* ── LISTA ───────────────────────────────────────────────── */
-  .list {
-    padding: 20px 16px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+  /* LISTA */
+  .list { padding: 20px 16px 0; display: flex; flex-direction: column; gap: 10px; }
 
-  /* ── CARD ────────────────────────────────────────────────── */
+  /* CARD */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -128,11 +94,10 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    transition: opacity .3s, border-color .2s;
     position: relative;
     overflow: hidden;
+    transition: opacity .3s;
   }
-
   .card::before {
     content: '';
     position: absolute;
@@ -142,86 +107,27 @@
     border-radius: 3px 0 0 3px;
     transition: background .3s;
   }
+  .card.feito { opacity: .55; }
+  .card.feito::before { background: var(--green); }
 
-  .card.feito {
-    opacity: .55;
-  }
-  .card.feito::before {
-    background: var(--green);
-  }
+  .time-col { flex-shrink: 0; width: 52px; text-align: right; }
+  .hora { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--amber); line-height: 1.2; }
+  .card.feito .hora { color: var(--green); }
+  .hora-fim { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+  .tag-dia { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); line-height: 1.3; }
 
-  .time-col {
-    flex-shrink: 0;
-    width: 52px;
-    text-align: right;
-  }
+  .divider { width: 1px; height: 36px; background: var(--border); flex-shrink: 0; }
 
-  .time-col .hora {
-    font-family: 'DM Mono', monospace;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--amber);
-    line-height: 1.2;
-  }
-
-  .card.feito .time-col .hora { color: var(--green); }
-
-  .time-col .hora-fim {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    color: var(--muted);
-    line-height: 1;
-  }
-
-  .time-col .tag-dia {
-    font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    line-height: 1.3;
-  }
-
-  .divider {
-    width: 1px;
-    height: 36px;
-    background: var(--border);
-    flex-shrink: 0;
-  }
-
-  .info {
-    flex: 1;
-    min-width: 0;
-  }
-
+  .info { flex: 1; min-width: 0; }
   .titulo {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    transition: text-decoration .2s;
+    font-size: 14px; font-weight: 500;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    transition: all .2s;
   }
+  .card.feito .titulo { text-decoration: line-through; color: var(--muted); }
+  .duracao { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'DM Mono', monospace; }
 
-  .card.feito .titulo {
-    text-decoration: line-through;
-    color: var(--muted);
-  }
-
-  .duracao {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 2px;
-    font-family: 'DM Mono', monospace;
-  }
-
-  .acoes {
-    display: flex;
-    gap: 8px;
-    flex-shrink: 0;
-  }
-
+  .acoes { display: flex; gap: 8px; flex-shrink: 0; }
   .btn-acao {
     height: 32px;
     min-width: 32px;
@@ -231,198 +137,127 @@
     background: transparent;
     cursor: pointer;
     font-size: 13px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    display: flex; align-items: center; gap: 5px;
     color: var(--muted);
     transition: all .18s;
     font-family: 'DM Sans', sans-serif;
     font-weight: 500;
     white-space: nowrap;
   }
-
   .btn-feito:hover  { border-color: var(--green); color: var(--green); background: #5cb88515; }
   .btn-amanha:hover { border-color: var(--amber); color: var(--amber); background: #e8a94615; }
-
   .card.feito .btn-feito { border-color: var(--green); color: var(--green); background: #5cb88520; }
-
   .btn-acao:disabled { opacity: .35; cursor: not-allowed; }
-  .btn-acao.working  { opacity: .5; pointer-events: none; }
 
-  /* ── EMPTY STATE ─────────────────────────────────────────── */
-  .empty {
-    text-align: center;
-    padding: 60px 24px;
-    color: var(--muted);
-  }
+  /* EMPTY */
+  .empty { text-align: center; padding: 60px 24px; color: var(--muted); }
   .empty .icon { font-size: 36px; margin-bottom: 12px; }
-  .empty .msg  { font-size: 14px; }
 
-  /* ── TOAST ───────────────────────────────────────────────── */
+  /* TOAST */
   .toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
+    position: fixed; bottom: 24px; left: 50%;
     transform: translateX(-50%) translateY(80px);
-    background: #252220;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 20px;
-    font-size: 13px;
-    color: var(--text);
-    transition: transform .3s cubic-bezier(.4,0,.2,1);
-    z-index: 999;
+    background: #252220; border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 20px;
+    font-size: 13px; transition: transform .3s; z-index: 999;
     white-space: nowrap;
   }
   .toast.show { transform: translateX(-50%) translateY(0); }
-  .toast.ok   { border-color: #5cb88555; color: var(--green); }
-  .toast.err  { border-color: #e05a5a55; color: var(--red); }
+  .toast.ok  { border-color: #5cb88555; color: var(--green); }
+  .toast.err { border-color: #e05a5a55; color: var(--red); }
 
-  /* ── SPINNER ─────────────────────────────────────────────── */
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── SKELETON ────────────────────────────────────────────── */
   .skeleton {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    height: 72px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); height: 72px;
     animation: pulse 1.4s ease-in-out infinite;
   }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: .4; }
-  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
 
-  /* ── SEÇÃO TITULO ────────────────────────────────────────── */
   .secao-titulo {
     padding: 20px 24px 6px;
     font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--muted);
+    font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
   }
-
-  /* ── SEPARADOR ───────────────────────────────────────────── */
-  .sep {
-    margin: 4px 24px;
-    border: none;
-    border-top: 1px solid var(--border);
-  }
+  .sep { margin: 4px 24px; border: none; border-top: 1px solid var(--border); }
 </style>
 </head>
 <body>
 
-<!-- ── HEADER ─────────────────────────────────────────────── -->
 <div class="header">
-  <div class="date-block">
+  <div>
     <div class="weekday" id="weekday">—</div>
     <div class="date-full" id="date-full">—</div>
     <div class="subtitle" id="subtitle">Carregando agenda...</div>
   </div>
-  <div class="header-actions">
-    <button class="btn-icon" id="btn-refresh" title="Atualizar" onclick="carregarAgenda()">↻</button>
-  </div>
+  <button class="btn-icon" id="btn-refresh" title="Atualizar" onclick="carregarAgenda()">↻</button>
 </div>
 
-<!-- ── PROGRESS ───────────────────────────────────────────── -->
-<div class="progress-wrap" id="progress-wrap" style="display:none">
+<div class="progress-wrap" id="progress-wrap">
   <div class="progress-row">
     <span id="progress-label">0 / 0 concluídos</span>
     <span id="progress-pct">0%</span>
   </div>
-  <div class="progress-bar">
-    <div class="progress-fill" id="progress-fill" style="width:0%"></div>
-  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
 </div>
 
-<!-- ── LISTA ──────────────────────────────────────────────── -->
 <div id="lista-container"></div>
-
-<!-- ── TOAST ──────────────────────────────────────────────── -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ============================================================
-//  CONFIGURAÇÃO — edite aqui
-// ============================================================
 const API_URL = 'https://script.google.com/macros/s/AKfycbyjcfIPjQpR9nLmv-uv8vxp7jw8eUXplJxpm_4tU5XUop61nfAMEFScFzqO06zno8Ov/exec';
 const TOKEN   = 'arqluz2026';
 
-// ============================================================
-//  ESTADO
-// ============================================================
 let eventos = [];
 
-// ============================================================
-//  INIT
-// ============================================================
 document.addEventListener('DOMContentLoaded', () => {
   renderizarData();
   carregarAgenda();
 });
 
-// ============================================================
-//  DATA
-// ============================================================
 function renderizarData() {
-  const agora = new Date();
+  const d = new Date();
   const semana = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
-  const meses  = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-
-  document.getElementById('weekday').textContent = semana[agora.getDay()];
-  document.getElementById('date-full').textContent =
-    `${agora.getDate()} de ${['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
-      'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'][agora.getMonth()]}`;
+  const meses  = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  document.getElementById('weekday').textContent   = semana[d.getDay()];
+  document.getElementById('date-full').textContent = `${d.getDate()} de ${meses[d.getMonth()]}`;
 }
 
-// ============================================================
-//  CARREGAR AGENDA
-// ============================================================
 async function carregarAgenda() {
   const btn = document.getElementById('btn-refresh');
   btn.classList.add('loading');
-
   mostrarSkeletons();
-
   try {
-    const res  = await fetch(`${API_URL}?token=${TOKEN}&action=today`);
+    const res  = await fetch(`${API_URL}?token=${TOKEN}&action=today`, { redirect: 'follow' });
     const data = await res.json();
-
     if (data.error) throw new Error(data.error);
-
     eventos = data.events || [];
     renderizarLista();
   } catch (e) {
     document.getElementById('lista-container').innerHTML =
-      `<div class="empty"><div class="icon">⚠️</div><div class="msg">Erro ao carregar: ${e.message}</div></div>`;
+      `<div class="empty"><div class="icon">⚠️</div><div class="msg">Erro: ${e.message}</div></div>`;
     document.getElementById('subtitle').textContent = 'Erro na conexão';
   } finally {
     btn.classList.remove('loading');
   }
 }
 
-// ============================================================
-//  RENDERIZAR
-// ============================================================
 function renderizarLista() {
   const container = document.getElementById('lista-container');
-  const total     = eventos.length;
-  const feitos    = eventos.filter(e => e.feito).length;
+  const total  = eventos.length;
+  const feitos = eventos.filter(e => e.feito).length;
 
-  // Subtitle
   document.getElementById('subtitle').textContent =
     total === 0 ? 'Nenhum evento hoje'
     : `${total} evento${total > 1 ? 's' : ''} hoje · ${feitos} concluído${feitos !== 1 ? 's' : ''}`;
 
-  // Progress
   if (total > 0) {
     const pct = Math.round(feitos / total * 100);
     document.getElementById('progress-wrap').style.display = 'block';
-    document.getElementById('progress-label').textContent = `${feitos} / ${total} concluídos`;
-    document.getElementById('progress-pct').textContent   = `${pct}%`;
-    document.getElementById('progress-fill').style.width  = `${pct}%`;
+    document.getElementById('progress-label').textContent  = `${feitos} / ${total} concluídos`;
+    document.getElementById('progress-pct').textContent    = `${pct}%`;
+    document.getElementById('progress-fill').style.width   = `${pct}%`;
   } else {
     document.getElementById('progress-wrap').style.display = 'none';
   }
@@ -432,21 +267,18 @@ function renderizarLista() {
     return;
   }
 
-  // Separar: eventos com horário vs dia inteiro
-  const comHora  = eventos.filter(e => !e.diaInteiro);
+  const comHora    = eventos.filter(e => !e.diaInteiro);
   const diaInteiro = eventos.filter(e => e.diaInteiro);
-
   let html = '';
 
-  if (diaInteiro.length > 0) {
+  if (diaInteiro.length) {
     html += `<p class="secao-titulo">Dia inteiro</p><div class="list">`;
     diaInteiro.forEach(ev => { html += cardHTML(ev); });
     html += `</div>`;
-    if (comHora.length > 0) html += `<hr class="sep">`;
+    if (comHora.length) html += `<hr class="sep">`;
   }
-
-  if (comHora.length > 0) {
-    if (diaInteiro.length > 0) html += `<p class="secao-titulo">Horários</p>`;
+  if (comHora.length) {
+    if (diaInteiro.length) html += `<p class="secao-titulo">Horários</p>`;
     html += `<div class="list">`;
     comHora.forEach(ev => { html += cardHTML(ev); });
     html += `</div>`;
@@ -456,98 +288,77 @@ function renderizarLista() {
 }
 
 function cardHTML(ev) {
-  const feitoCls  = ev.feito ? 'feito' : '';
-  const titulo    = ev.feito ? ev.titulo.replace(/^✅ /, '') : ev.titulo;
-  const btnFeito  = ev.feito
-    ? `<button class="btn-acao btn-feito" onclick="acao('undone','${ev.id}',this)">✅ Feito</button>`
-    : `<button class="btn-acao btn-feito" onclick="acao('done','${ev.id}',this)">○ Feito</button>`;
+  const feitoCls = ev.feito ? 'feito' : '';
+  const titulo   = ev.titulo.replace(/^✅ /, '');
+  const safeId   = encodeURIComponent(ev.id);
 
-  let tempoHTML = '';
-  if (ev.diaInteiro) {
-    tempoHTML = `<div class="tag-dia">Dia<br>Inteiro</div>`;
-  } else {
-    const inicio = formatarHora(ev.inicio);
-    const fim    = formatarHora(ev.fim);
-    const dur    = duracaoMin(ev.inicio, ev.fim);
-    tempoHTML = `
-      <div class="hora">${inicio}</div>
-      <div class="hora-fim">${fim}</div>
-    `;
-  }
+  let tempoHTML = ev.diaInteiro
+    ? `<div class="tag-dia">Dia<br>Inteiro</div>`
+    : `<div class="hora">${formatarHora(ev.inicio)}</div><div class="hora-fim">${formatarHora(ev.fim)}</div>`;
 
   const dur = (!ev.diaInteiro && ev.inicio && ev.fim)
     ? `<div class="duracao">${duracaoMin(ev.inicio, ev.fim)}</div>` : '';
 
+  const btnFeito = ev.feito
+    ? `<button class="btn-acao btn-feito" onclick="acao('undone','${safeId}',this)">✅ Feito</button>`
+    : `<button class="btn-acao btn-feito" onclick="acao('done','${safeId}',this)">○ Feito</button>`;
+
   return `
-  <div class="card ${feitoCls}" id="card-${btoa(ev.id).replace(/[^a-z0-9]/gi,'')}">
+  <div class="card ${feitoCls}">
     <div class="time-col">${tempoHTML}</div>
     <div class="divider"></div>
     <div class="info">
-      <div class="titulo" title="${ev.titulo}">${titulo}</div>
+      <div class="titulo" title="${titulo}">${titulo}</div>
       ${dur}
     </div>
     <div class="acoes">
       ${btnFeito}
-      <button class="btn-acao btn-amanha" onclick="acao('tomorrow','${ev.id}',this)">→ Amanhã</button>
+      <button class="btn-acao btn-amanha" onclick="acao('tomorrow','${safeId}',this)">→ Amanhã</button>
     </div>
   </div>`;
 }
 
-// ============================================================
-//  AÇÕES
-// ============================================================
 async function acao(tipo, eventId, btn) {
-  btn.classList.add('working');
-  const botoesCard = btn.closest('.card').querySelectorAll('.btn-acao');
-  botoesCard.forEach(b => b.disabled = true);
+  const card   = btn.closest('.card');
+  const botoes = card.querySelectorAll('.btn-acao');
+  botoes.forEach(b => b.disabled = true);
 
   try {
-    const res  = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token: TOKEN, action: tipo, eventId })
-    });
+    const url  = `${API_URL}?token=${TOKEN}&action=${tipo}&eventId=${eventId}`;
+    const res  = await fetch(url, { redirect: 'follow' });
     const data = await res.json();
     if (data.error) throw new Error(data.error);
 
-    // Atualiza estado local
-    const idx = eventos.findIndex(e => e.id === eventId);
+    const idx = eventos.findIndex(e => encodeURIComponent(e.id) === eventId);
     if (idx !== -1) {
       if (tipo === 'done')     eventos[idx].feito = true;
       if (tipo === 'undone')   eventos[idx].feito = false;
       if (tipo === 'tomorrow') eventos.splice(idx, 1);
     }
-
     renderizarLista();
 
     const msgs = { done: '✅ Marcado como feito', undone: '↩ Desmarcado', tomorrow: '📅 Movido para amanhã' };
-    toast(msgs[tipo] || 'OK', 'ok');
+    toast(msgs[tipo], 'ok');
   } catch (e) {
     toast('Erro: ' + e.message, 'err');
-    btn.classList.remove('working');
-    botoesCard.forEach(b => b.disabled = false);
+    botoes.forEach(b => b.disabled = false);
   }
 }
 
-// ============================================================
-//  HELPERS
-// ============================================================
 function formatarHora(iso) {
   if (!iso) return '';
-  const d = new Date(iso);
-  return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  return new Date(iso).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 }
 
-function duracaoMin(isoInicio, isoFim) {
-  const min = Math.round((new Date(isoFim) - new Date(isoInicio)) / 60000);
+function duracaoMin(i, f) {
+  const min = Math.round((new Date(f) - new Date(i)) / 60000);
   if (min < 60) return `${min}min`;
   const h = Math.floor(min / 60), m = min % 60;
-  return m > 0 ? `${h}h${m}min` : `${h}h`;
+  return m ? `${h}h${m}min` : `${h}h`;
 }
 
 function mostrarSkeletons() {
-  const container = document.getElementById('lista-container');
-  container.innerHTML = `<div class="list">
+  document.getElementById('lista-container').innerHTML = `<div class="list">
     <div class="skeleton"></div>
     <div class="skeleton" style="opacity:.7"></div>
     <div class="skeleton" style="opacity:.4"></div>
@@ -560,7 +371,7 @@ function toast(msg, tipo = '') {
   el.textContent = msg;
   el.className = `toast ${tipo} show`;
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { el.classList.remove('show'); }, 2800);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
 }
 </script>
 </body>
