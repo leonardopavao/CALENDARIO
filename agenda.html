@@ -25,95 +25,145 @@
     font-family: 'DM Sans', sans-serif;
     font-size: 15px;
     min-height: 100vh;
-    padding: 0 0 60px;
+    padding: 0 0 80px;
+    transition: background .3s, color .3s;
   }
+
   .header {
-    padding: 36px 24px 24px;
+    padding: 28px 20px 20px;
     border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
+  }
+  .header-top {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; margin-bottom: 16px;
   }
   .weekday {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    color: var(--amber);
-    margin-bottom: 4px;
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    letter-spacing: .15em; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 4px;
   }
   .date-full {
     font-family: 'DM Serif Display', serif;
-    font-size: clamp(28px, 7vw, 42px);
-    line-height: 1.1;
+    font-size: clamp(26px, 6vw, 38px); line-height: 1.1;
   }
-  .subtitle { font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .subtitle { font-size: 12px; color: var(--muted); margin-top: 5px; }
+  .offset-badge {
+    display: none;
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--amber); background: #e8a94615;
+    border: 1px solid #e8a94630; border-radius: 6px;
+    padding: 3px 8px; margin-top: 6px;
+  }
+
+  .header-btns { display: flex; gap: 8px; }
   .btn-icon {
-    width: 40px; height: 40px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--muted);
-    cursor: pointer;
-    display: grid; place-items: center;
-    font-size: 18px;
+    width: 36px; height: 36px; border-radius: 9px;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--muted); cursor: pointer;
+    display: grid; place-items: center; font-size: 16px;
     transition: all .2s;
-    flex-shrink: 0;
   }
   .btn-icon:hover { border-color: var(--amber); color: var(--amber); }
   .btn-icon.loading { animation: spin 1s linear infinite; }
+  .btn-icon.active  { border-color: var(--amber); color: var(--amber); background: #e8a94615; }
 
-  .progress-wrap { padding: 16px 24px 0; display: none; }
+  /* TEMA PANEL */
+  .tema-panel {
+    margin-top: 14px;
+    padding: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: none;
+  }
+  .tema-titulo {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 12px;
+  }
+  .tema-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+  .tema-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    cursor: pointer; border: none; background: none; padding: 0;
+  }
+  .tema-circulo {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 2px solid transparent;
+    transition: all .2s; position: relative;
+  }
+  .tema-circulo:hover { transform: scale(1.1); }
+  .tema-btn.ativo .tema-circulo { border-color: var(--amber); }
+  .tema-btn.ativo .tema-circulo::after {
+    content: '✓';
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    font-size: 14px; color: white;
+    text-shadow: 0 1px 3px rgba(0,0,0,.5);
+  }
+  .tema-label { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; }
+
+  /* NAVEGAÇÃO */
+  .nav-dias { display: flex; align-items: center; gap: 8px; }
+  .btn-nav {
+    height: 34px; padding: 0 12px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--muted); cursor: pointer; font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    display: flex; align-items: center; gap: 6px;
+    transition: all .2s; white-space: nowrap;
+  }
+  .btn-nav:hover { border-color: var(--amber); color: var(--amber); }
+  .btn-nav.hoje  { border-color: var(--amber); color: var(--amber); background: #e8a94612; }
+
+  /* PROGRESS */
+  .progress-wrap { padding: 14px 20px 0; display: none; }
   .progress-row {
     display: flex; justify-content: space-between;
-    font-size: 11px; color: var(--muted); margin-bottom: 8px;
+    font-size: 11px; color: var(--muted); margin-bottom: 7px;
     font-family: 'DM Mono', monospace;
   }
   .progress-bar { height: 3px; background: var(--border); border-radius: 99px; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--amber); border-radius: 99px; transition: width .6s; }
 
-  .list { padding: 20px 16px 0; display: flex; flex-direction: column; gap: 10px; }
+  /* LISTA */
+  .list { padding: 16px 14px 0; display: flex; flex-direction: column; gap: 9px; }
 
+  /* CARD */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 14px 14px 14px 16px;
-    display: flex; align-items: center; gap: 14px;
-    position: relative; overflow: hidden;
-    transition: opacity .3s;
+    padding: 13px 13px 13px 15px;
+    display: flex; align-items: center; gap: 12px;
+    position: relative; overflow: hidden; transition: opacity .3s;
   }
   .card::before {
     content: ''; position: absolute;
     left: 0; top: 0; bottom: 0; width: 3px;
-    background: var(--amber);
-    border-radius: 3px 0 0 3px;
-    transition: background .3s;
+    background: var(--amber); border-radius: 3px 0 0 3px; transition: background .3s;
   }
-  .card.feito { opacity: .55; }
+  .card.feito { opacity: .5; }
   .card.feito::before { background: var(--green); }
 
-  .time-col { flex-shrink: 0; width: 52px; text-align: right; }
+  .time-col { flex-shrink: 0; width: 50px; text-align: right; }
   .hora { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--amber); line-height: 1.2; }
   .card.feito .hora { color: var(--green); }
   .hora-fim { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
-  .tag-dia { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); line-height: 1.3; }
+  .tag-dia { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); line-height: 1.4; }
 
-  .divider { width: 1px; height: 36px; background: var(--border); flex-shrink: 0; }
+  .divider { width: 1px; height: 34px; background: var(--border); flex-shrink: 0; }
   .info { flex: 1; min-width: 0; }
-  .titulo {
-    font-size: 14px; font-weight: 500;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
+  .titulo { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .card.feito .titulo { text-decoration: line-through; color: var(--muted); }
   .duracao { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'DM Mono', monospace; }
 
-  .acoes { display: flex; gap: 8px; flex-shrink: 0; }
+  .acoes { display: flex; gap: 7px; flex-shrink: 0; }
   .btn-acao {
-    height: 32px; min-width: 32px; padding: 0 10px;
-    border-radius: 8px; border: 1px solid var(--border);
-    background: transparent; cursor: pointer; font-size: 13px;
-    display: flex; align-items: center; gap: 5px;
+    height: 30px; min-width: 30px; padding: 0 9px;
+    border-radius: 7px; border: 1px solid var(--border);
+    background: transparent; cursor: pointer; font-size: 12px;
+    display: flex; align-items: center; gap: 4px;
     color: var(--muted); transition: all .18s;
     font-family: 'DM Sans', sans-serif; font-weight: 500; white-space: nowrap;
   }
@@ -128,7 +178,7 @@
   .toast {
     position: fixed; bottom: 24px; left: 50%;
     transform: translateX(-50%) translateY(80px);
-    background: #252220; border: 1px solid var(--border);
+    background: var(--surface); border: 1px solid var(--border);
     border-radius: 10px; padding: 10px 20px;
     font-size: 13px; transition: transform .3s; z-index: 999; white-space: nowrap;
   }
@@ -139,28 +189,45 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   .skeleton {
     background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); height: 72px;
+    border-radius: var(--radius); height: 68px;
     animation: pulse 1.4s ease-in-out infinite;
   }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-
   .secao-titulo {
-    padding: 20px 24px 6px;
-    font-family: 'DM Mono', monospace;
+    padding: 18px 20px 5px; font-family: 'DM Mono', monospace;
     font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
   }
-  .sep { margin: 4px 24px; border: none; border-top: 1px solid var(--border); }
+  .sep { margin: 4px 20px; border: none; border-top: 1px solid var(--border); }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div>
-    <div class="weekday" id="weekday">—</div>
-    <div class="date-full" id="date-full">—</div>
-    <div class="subtitle" id="subtitle">Carregando agenda...</div>
+  <div class="header-top">
+    <div>
+      <div class="weekday" id="weekday">—</div>
+      <div class="date-full" id="date-full">—</div>
+      <div class="subtitle" id="subtitle">Carregando...</div>
+      <div class="offset-badge" id="offset-badge"></div>
+    </div>
+    <div class="header-btns">
+      <button class="btn-icon" id="btn-tema" title="Tema" onclick="toggleTemas()">🎨</button>
+      <button class="btn-icon" id="btn-refresh" title="Atualizar" onclick="carregarAgenda()">↻</button>
+    </div>
   </div>
-  <button class="btn-icon" id="btn-refresh" title="Atualizar" onclick="carregarAgenda()">↻</button>
+
+  <!-- PAINEL DE TEMAS -->
+  <div class="tema-panel" id="tema-panel">
+    <div class="tema-titulo">Cor do fundo</div>
+    <div class="tema-grid" id="tema-grid"></div>
+  </div>
+
+  <!-- NAVEGAÇÃO DE DIAS -->
+  <div class="nav-dias" style="margin-top:14px">
+    <button class="btn-nav" onclick="mudarDia(-1)">← Anterior</button>
+    <button class="btn-nav hoje" id="btn-hoje" onclick="irParaHoje()">● Hoje</button>
+    <button class="btn-nav" onclick="mudarDia(1)">Próximo →</button>
+  </div>
 </div>
 
 <div class="progress-wrap" id="progress-wrap">
@@ -179,57 +246,122 @@ const API_URL = 'https://script.google.com/macros/s/AKfycbyjcflPjQpR9nLmv-uv8vxp
 const TOKEN   = 'arqluz2026';
 
 let eventos = [];
+let offset  = 0;
 
-// ── JSONP: bypassa CORS completamente ────────────────────────
+// ── TEMAS ─────────────────────────────────────────────────────
+const TEMAS = [
+  { id: 'escuro',    nome: 'Escuro',   bg: '#0d0c0b', surface: '#181614', border: '#2a2724', text: '#f0ebe3', muted: '#7a746e' },
+  { id: 'grafite',   nome: 'Grafite',  bg: '#141414', surface: '#1e1e1e', border: '#2e2e2e', text: '#e8e8e8', muted: '#777777' },
+  { id: 'azul',      nome: 'Azul',     bg: '#0a0f1a', surface: '#111827', border: '#1e2d45', text: '#e2eaf5', muted: '#607494' },
+  { id: 'verde',     nome: 'Verde',    bg: '#0a1210', surface: '#111a16', border: '#1a2e22', text: '#e0ede6', muted: '#4d7a5e' },
+  { id: 'roxo',      nome: 'Roxo',     bg: '#0f0a1a', surface: '#171025', border: '#261c3a', text: '#ede8f5', muted: '#7060a0' },
+  { id: 'branco',    nome: 'Branco',   bg: '#f5f5f2', surface: '#ffffff', border: '#e0ddd8', text: '#1a1816', muted: '#9a9590' },
+  { id: 'creme',     nome: 'Creme',    bg: '#f2ede4', surface: '#faf7f1', border: '#ddd5c5', text: '#1e1a14', muted: '#9a8e7a' },
+  { id: 'sepia',     nome: 'Sépia',    bg: '#1a1408', surface: '#241c0e', border: '#36280f', text: '#f0e4c8', muted: '#8a7450' },
+];
+
+let temaAtual = localStorage.getItem('agenda-tema') || 'escuro';
+
+function iniciarTemas() {
+  const grid = document.getElementById('tema-grid');
+  grid.innerHTML = TEMAS.map(t => `
+    <button class="tema-btn ${t.id === temaAtual ? 'ativo' : ''}" onclick="aplicarTema('${t.id}')" title="${t.nome}">
+      <div class="tema-circulo" style="background:${t.bg};border-color:${t.id === temaAtual ? 'var(--amber)' : t.border};box-shadow:inset 0 0 0 8px ${t.surface}"></div>
+      <span class="tema-label">${t.nome}</span>
+    </button>
+  `).join('');
+
+  aplicarTema(temaAtual, false);
+}
+
+function aplicarTema(id, salvar = true) {
+  const t = TEMAS.find(x => x.id === id);
+  if (!t) return;
+  temaAtual = id;
+
+  const r = document.documentElement.style;
+  r.setProperty('--bg',      t.bg);
+  r.setProperty('--surface', t.surface);
+  r.setProperty('--border',  t.border);
+  r.setProperty('--text',    t.text);
+  r.setProperty('--muted',   t.muted);
+
+  if (salvar) {
+    localStorage.setItem('agenda-tema', id);
+    iniciarTemas(); // atualiza os círculos
+  }
+  toast('Tema: ' + t.nome, 'ok');
+}
+
+function toggleTemas() {
+  const panel = document.getElementById('tema-panel');
+  const btn   = document.getElementById('btn-tema');
+  const aberto = panel.style.display === 'block';
+  panel.style.display = aberto ? 'none' : 'block';
+  btn.classList.toggle('active', !aberto);
+}
+
+// ── JSONP ─────────────────────────────────────────────────────
 function jsonp(params) {
   return new Promise((resolve, reject) => {
-    const cbName = '_cb_' + Date.now();
-    const timeout = setTimeout(() => {
-      delete window[cbName];
-      reject(new Error('Timeout'));
-    }, 10000);
+    const cbName = '_cb_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const timeout = setTimeout(() => { delete window[cbName]; reject(new Error('Timeout')); }, 12000);
 
     window[cbName] = function(data) {
       clearTimeout(timeout);
       delete window[cbName];
-      document.head.removeChild(script);
+      if (script.parentNode) script.parentNode.removeChild(script);
       resolve(data);
     };
 
     const qs = Object.entries({ ...params, callback: cbName })
-      .map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&');
+      .map(([k, v]) => encodeURIComponent(k) + '=' + encodeURIComponent(v)).join('&');
 
     const script = document.createElement('script');
-    script.src = `${API_URL}?${qs}`;
-    script.onerror = () => {
-      clearTimeout(timeout);
-      delete window[cbName];
-      reject(new Error('Erro de rede'));
-    };
+    script.src = API_URL + '?' + qs;
+    script.onerror = () => { clearTimeout(timeout); delete window[cbName]; reject(new Error('Erro de rede')); };
     document.head.appendChild(script);
   });
 }
 
-// ── INIT ─────────────────────────────────────────────────────
+// ── INIT ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  renderizarData();
+  iniciarTemas();
   carregarAgenda();
 });
 
-function renderizarData() {
+// ── NAVEGAÇÃO ─────────────────────────────────────────────────
+function mudarDia(delta) { offset += delta; carregarAgenda(); }
+function irParaHoje()    { offset = 0;       carregarAgenda(); }
+
+function atualizarHeader(off) {
   const d = new Date();
+  d.setDate(d.getDate() + off);
   const semana = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
   const meses  = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
   document.getElementById('weekday').textContent   = semana[d.getDay()];
   document.getElementById('date-full').textContent = `${d.getDate()} de ${meses[d.getMonth()]}`;
+
+  const badge = document.getElementById('offset-badge');
+  const hoje  = document.getElementById('btn-hoje');
+  if (off === 0) {
+    badge.style.display = 'none'; hoje.classList.add('hoje');
+  } else {
+    badge.style.display = 'inline-block'; hoje.classList.remove('hoje');
+    if (off === 1)       badge.textContent = '▸ Amanhã';
+    else if (off === -1) badge.textContent = '◂ Ontem';
+    else if (off > 0)    badge.textContent = `▸ +${off} dias`;
+    else                  badge.textContent = `◂ ${Math.abs(off)} dias atrás`;
+  }
 }
 
 // ── CARREGAR ──────────────────────────────────────────────────
 async function carregarAgenda() {
   document.getElementById('btn-refresh').classList.add('loading');
+  atualizarHeader(offset);
   mostrarSkeletons();
   try {
-    const data = await jsonp({ token: TOKEN, action: 'today' });
+    const data = await jsonp({ token: TOKEN, action: 'today', offset });
     if (data.error) throw new Error(data.error);
     eventos = data.events || [];
     renderizarLista();
@@ -249,8 +381,8 @@ function renderizarLista() {
   const feitos = eventos.filter(e => e.feito).length;
 
   document.getElementById('subtitle').textContent =
-    total === 0 ? 'Nenhum evento hoje'
-    : `${total} evento${total > 1 ? 's' : ''} hoje · ${feitos} concluído${feitos !== 1 ? 's' : ''}`;
+    total === 0 ? 'Nenhum evento'
+    : `${total} evento${total > 1 ? 's' : ''} · ${feitos} concluído${feitos !== 1 ? 's' : ''}`;
 
   if (total > 0) {
     const pct = Math.round(feitos / total * 100);
@@ -263,44 +395,40 @@ function renderizarLista() {
   }
 
   if (total === 0) {
-    container.innerHTML = `<div class="empty"><div class="icon">🌿</div><div class="msg">Dia livre! Nenhum evento hoje.</div></div>`;
+    container.innerHTML = `<div class="empty"><div class="icon">🌿</div><div class="msg">Nenhum evento neste dia.</div></div>`;
     return;
   }
 
   const comHora    = eventos.filter(e => !e.diaInteiro);
-  const diaInteiro = eventos.filter(e => e.diaInteiro);
+  const diaInteiro = eventos.filter(e =>  e.diaInteiro);
   let html = '';
 
   if (diaInteiro.length) {
     html += `<p class="secao-titulo">Dia inteiro</p><div class="list">`;
-    diaInteiro.forEach(ev => { html += cardHTML(ev); });
+    diaInteiro.forEach(ev => { html += cardHTML(ev, eventos.indexOf(ev)); });
     html += `</div>`;
     if (comHora.length) html += `<hr class="sep">`;
   }
   if (comHora.length) {
     if (diaInteiro.length) html += `<p class="secao-titulo">Horários</p>`;
     html += `<div class="list">`;
-    comHora.forEach(ev => { html += cardHTML(ev); });
+    comHora.forEach(ev => { html += cardHTML(ev, eventos.indexOf(ev)); });
     html += `</div>`;
   }
   container.innerHTML = html;
 }
 
-function cardHTML(ev) {
+function cardHTML(ev, idx) {
   const feitoCls = ev.feito ? 'feito' : '';
   const titulo   = ev.titulo.replace(/^✅ /, '');
-  const safeId   = encodeURIComponent(ev.id);
-
   const tempoHTML = ev.diaInteiro
-    ? `<div class="tag-dia">Dia<br>Inteiro</div>`
+    ? `<div class="tag-dia">DIA<br>INTEIRO</div>`
     : `<div class="hora">${formatarHora(ev.inicio)}</div><div class="hora-fim">${formatarHora(ev.fim)}</div>`;
-
   const dur = (!ev.diaInteiro && ev.inicio && ev.fim)
     ? `<div class="duracao">${duracaoMin(ev.inicio, ev.fim)}</div>` : '';
-
   const btnFeito = ev.feito
-    ? `<button class="btn-acao btn-feito" onclick="acao('undone','${safeId}',this)">✅ Feito</button>`
-    : `<button class="btn-acao btn-feito" onclick="acao('done','${safeId}',this)">○ Feito</button>`;
+    ? `<button class="btn-acao btn-feito" onclick="acao('undone',${idx},this)">✅ Feito</button>`
+    : `<button class="btn-acao btn-feito" onclick="acao('done',${idx},this)">○ Feito</button>`;
 
   return `
   <div class="card ${feitoCls}">
@@ -312,28 +440,23 @@ function cardHTML(ev) {
     </div>
     <div class="acoes">
       ${btnFeito}
-      <button class="btn-acao btn-amanha" onclick="acao('tomorrow','${safeId}',this)">→ Amanhã</button>
+      <button class="btn-acao btn-amanha" onclick="acao('tomorrow',${idx},this)">→ Amanhã</button>
     </div>
   </div>`;
 }
 
 // ── AÇÕES ─────────────────────────────────────────────────────
-async function acao(tipo, eventId, btn) {
+async function acao(tipo, idx, btn) {
+  const ev     = eventos[idx];
   const botoes = btn.closest('.card').querySelectorAll('.btn-acao');
   botoes.forEach(b => b.disabled = true);
-
   try {
-    const data = await jsonp({ token: TOKEN, action: tipo, eventId: decodeURIComponent(eventId) });
+    const data = await jsonp({ token: TOKEN, action: tipo, eventId: ev.id });
     if (data.error) throw new Error(data.error);
-
-    const idx = eventos.findIndex(e => encodeURIComponent(e.id) === eventId);
-    if (idx !== -1) {
-      if (tipo === 'done')     eventos[idx].feito = true;
-      if (tipo === 'undone')   eventos[idx].feito = false;
-      if (tipo === 'tomorrow') eventos.splice(idx, 1);
-    }
+    if (tipo === 'done')     eventos[idx].feito = true;
+    if (tipo === 'undone')   eventos[idx].feito = false;
+    if (tipo === 'tomorrow') eventos.splice(idx, 1);
     renderizarLista();
-
     const msgs = { done: '✅ Marcado como feito', undone: '↩ Desmarcado', tomorrow: '📅 Movido para amanhã' };
     toast(msgs[tipo], 'ok');
   } catch (e) {
