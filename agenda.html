@@ -27,8 +27,6 @@
     min-height: 100vh;
     padding: 0 0 60px;
   }
-
-  /* HEADER */
   .header {
     padding: 36px 24px 24px;
     border-bottom: 1px solid var(--border);
@@ -49,11 +47,7 @@
     font-size: clamp(28px, 7vw, 42px);
     line-height: 1.1;
   }
-  .subtitle {
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 6px;
-  }
+  .subtitle { font-size: 12px; color: var(--muted); margin-top: 6px; }
   .btn-icon {
     width: 40px; height: 40px;
     border-radius: 10px;
@@ -69,40 +63,29 @@
   .btn-icon:hover { border-color: var(--amber); color: var(--amber); }
   .btn-icon.loading { animation: spin 1s linear infinite; }
 
-  /* PROGRESS */
   .progress-wrap { padding: 16px 24px 0; display: none; }
   .progress-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    color: var(--muted);
-    margin-bottom: 8px;
+    display: flex; justify-content: space-between;
+    font-size: 11px; color: var(--muted); margin-bottom: 8px;
     font-family: 'DM Mono', monospace;
   }
   .progress-bar { height: 3px; background: var(--border); border-radius: 99px; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--amber); border-radius: 99px; transition: width .6s; }
 
-  /* LISTA */
   .list { padding: 20px 16px 0; display: flex; flex-direction: column; gap: 10px; }
 
-  /* CARD */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 14px 14px 14px 16px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    position: relative;
-    overflow: hidden;
+    display: flex; align-items: center; gap: 14px;
+    position: relative; overflow: hidden;
     transition: opacity .3s;
   }
   .card::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
+    content: ''; position: absolute;
+    left: 0; top: 0; bottom: 0; width: 3px;
     background: var(--amber);
     border-radius: 3px 0 0 3px;
     transition: background .3s;
@@ -117,57 +100,43 @@
   .tag-dia { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); line-height: 1.3; }
 
   .divider { width: 1px; height: 36px; background: var(--border); flex-shrink: 0; }
-
   .info { flex: 1; min-width: 0; }
   .titulo {
     font-size: 14px; font-weight: 500;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    transition: all .2s;
   }
   .card.feito .titulo { text-decoration: line-through; color: var(--muted); }
   .duracao { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'DM Mono', monospace; }
 
   .acoes { display: flex; gap: 8px; flex-shrink: 0; }
   .btn-acao {
-    height: 32px;
-    min-width: 32px;
-    padding: 0 10px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: transparent;
-    cursor: pointer;
-    font-size: 13px;
+    height: 32px; min-width: 32px; padding: 0 10px;
+    border-radius: 8px; border: 1px solid var(--border);
+    background: transparent; cursor: pointer; font-size: 13px;
     display: flex; align-items: center; gap: 5px;
-    color: var(--muted);
-    transition: all .18s;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    white-space: nowrap;
+    color: var(--muted); transition: all .18s;
+    font-family: 'DM Sans', sans-serif; font-weight: 500; white-space: nowrap;
   }
   .btn-feito:hover  { border-color: var(--green); color: var(--green); background: #5cb88515; }
   .btn-amanha:hover { border-color: var(--amber); color: var(--amber); background: #e8a94615; }
   .card.feito .btn-feito { border-color: var(--green); color: var(--green); background: #5cb88520; }
   .btn-acao:disabled { opacity: .35; cursor: not-allowed; }
 
-  /* EMPTY */
   .empty { text-align: center; padding: 60px 24px; color: var(--muted); }
   .empty .icon { font-size: 36px; margin-bottom: 12px; }
 
-  /* TOAST */
   .toast {
     position: fixed; bottom: 24px; left: 50%;
     transform: translateX(-50%) translateY(80px);
     background: #252220; border: 1px solid var(--border);
     border-radius: 10px; padding: 10px 20px;
-    font-size: 13px; transition: transform .3s; z-index: 999;
-    white-space: nowrap;
+    font-size: 13px; transition: transform .3s; z-index: 999; white-space: nowrap;
   }
   .toast.show { transform: translateX(-50%) translateY(0); }
   .toast.ok  { border-color: #5cb88555; color: var(--green); }
   .toast.err { border-color: #e05a5a55; color: var(--red); }
 
   @keyframes spin { to { transform: rotate(360deg); } }
-
   .skeleton {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: var(--radius); height: 72px;
@@ -211,6 +180,37 @@ const TOKEN   = 'arqluz2026';
 
 let eventos = [];
 
+// ── JSONP: bypassa CORS completamente ────────────────────────
+function jsonp(params) {
+  return new Promise((resolve, reject) => {
+    const cbName = '_cb_' + Date.now();
+    const timeout = setTimeout(() => {
+      delete window[cbName];
+      reject(new Error('Timeout'));
+    }, 10000);
+
+    window[cbName] = function(data) {
+      clearTimeout(timeout);
+      delete window[cbName];
+      document.head.removeChild(script);
+      resolve(data);
+    };
+
+    const qs = Object.entries({ ...params, callback: cbName })
+      .map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&');
+
+    const script = document.createElement('script');
+    script.src = `${API_URL}?${qs}`;
+    script.onerror = () => {
+      clearTimeout(timeout);
+      delete window[cbName];
+      reject(new Error('Erro de rede'));
+    };
+    document.head.appendChild(script);
+  });
+}
+
+// ── INIT ─────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   renderizarData();
   carregarAgenda();
@@ -224,13 +224,12 @@ function renderizarData() {
   document.getElementById('date-full').textContent = `${d.getDate()} de ${meses[d.getMonth()]}`;
 }
 
+// ── CARREGAR ──────────────────────────────────────────────────
 async function carregarAgenda() {
-  const btn = document.getElementById('btn-refresh');
-  btn.classList.add('loading');
+  document.getElementById('btn-refresh').classList.add('loading');
   mostrarSkeletons();
   try {
-    const res  = await fetch(`${API_URL}?token=${TOKEN}&action=today`, { redirect: 'follow' });
-    const data = await res.json();
+    const data = await jsonp({ token: TOKEN, action: 'today' });
     if (data.error) throw new Error(data.error);
     eventos = data.events || [];
     renderizarLista();
@@ -239,10 +238,11 @@ async function carregarAgenda() {
       `<div class="empty"><div class="icon">⚠️</div><div class="msg">Erro: ${e.message}</div></div>`;
     document.getElementById('subtitle').textContent = 'Erro na conexão';
   } finally {
-    btn.classList.remove('loading');
+    document.getElementById('btn-refresh').classList.remove('loading');
   }
 }
 
+// ── RENDERIZAR ────────────────────────────────────────────────
 function renderizarLista() {
   const container = document.getElementById('lista-container');
   const total  = eventos.length;
@@ -283,7 +283,6 @@ function renderizarLista() {
     comHora.forEach(ev => { html += cardHTML(ev); });
     html += `</div>`;
   }
-
   container.innerHTML = html;
 }
 
@@ -292,7 +291,7 @@ function cardHTML(ev) {
   const titulo   = ev.titulo.replace(/^✅ /, '');
   const safeId   = encodeURIComponent(ev.id);
 
-  let tempoHTML = ev.diaInteiro
+  const tempoHTML = ev.diaInteiro
     ? `<div class="tag-dia">Dia<br>Inteiro</div>`
     : `<div class="hora">${formatarHora(ev.inicio)}</div><div class="hora-fim">${formatarHora(ev.fim)}</div>`;
 
@@ -318,15 +317,13 @@ function cardHTML(ev) {
   </div>`;
 }
 
+// ── AÇÕES ─────────────────────────────────────────────────────
 async function acao(tipo, eventId, btn) {
-  const card   = btn.closest('.card');
-  const botoes = card.querySelectorAll('.btn-acao');
+  const botoes = btn.closest('.card').querySelectorAll('.btn-acao');
   botoes.forEach(b => b.disabled = true);
 
   try {
-    const url  = `${API_URL}?token=${TOKEN}&action=${tipo}&eventId=${eventId}`;
-    const res  = await fetch(url, { redirect: 'follow' });
-    const data = await res.json();
+    const data = await jsonp({ token: TOKEN, action: tipo, eventId: decodeURIComponent(eventId) });
     if (data.error) throw new Error(data.error);
 
     const idx = eventos.findIndex(e => encodeURIComponent(e.id) === eventId);
@@ -345,18 +342,17 @@ async function acao(tipo, eventId, btn) {
   }
 }
 
+// ── HELPERS ───────────────────────────────────────────────────
 function formatarHora(iso) {
   if (!iso) return '';
   return new Date(iso).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 }
-
 function duracaoMin(i, f) {
   const min = Math.round((new Date(f) - new Date(i)) / 60000);
   if (min < 60) return `${min}min`;
   const h = Math.floor(min / 60), m = min % 60;
   return m ? `${h}h${m}min` : `${h}h`;
 }
-
 function mostrarSkeletons() {
   document.getElementById('lista-container').innerHTML = `<div class="list">
     <div class="skeleton"></div>
@@ -364,7 +360,6 @@ function mostrarSkeletons() {
     <div class="skeleton" style="opacity:.4"></div>
   </div>`;
 }
-
 let toastTimer;
 function toast(msg, tipo = '') {
   const el = document.getElementById('toast');
