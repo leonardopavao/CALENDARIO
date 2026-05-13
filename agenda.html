@@ -847,9 +847,15 @@ function renderizarLista() {
   }
 
   const comHora = visiveis.filter(e => !e.diaInteiro), diaInteiroEvs = visiveis.filter(e => e.diaInteiro);
-  let html = '';
-  if (diaInteiroEvs.length) { html += `<p class="secao-titulo">Dia inteiro</p><div class="list">`; diaInteiroEvs.forEach(ev => { html += cardHTML(ev, eventos.indexOf(ev)); }); html += `</div>`; if (comHora.length) html += `<hr class="sep">`; }
-  if (comHora.length) { if (diaInteiroEvs.length) html += `<p class="secao-titulo">Horários</p>`; html += `<div class="list">`; comHora.forEach(ev => { html += cardHTML(ev, eventos.indexOf(ev)); }); html += `</div>`; }
+
+  // Pendentes primeiro, feitos no final (dentro de cada seção)
+  const sortarSecao = arr => [
+    ...arr.filter(e => !e.feito),
+    ...arr.filter(e =>  e.feito)
+  ];
+
+  if (diaInteiroEvs.length) { html += `<p class="secao-titulo">Dia inteiro</p><div class="list">`; sortarSecao(diaInteiroEvs).forEach(ev => { html += cardHTML(ev, eventos.indexOf(ev)); }); html += `</div>`; if (comHora.length) html += `<hr class="sep">`; }
+  if (comHora.length) { if (diaInteiroEvs.length) html += `<p class="secao-titulo">Horários</p>`; html += `<div class="list">`; sortarSecao(comHora).forEach(ev => { html += cardHTML(ev, eventos.indexOf(ev)); }); html += `</div>`; }
   container.innerHTML = html;
 }
 
