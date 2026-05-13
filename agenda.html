@@ -113,14 +113,45 @@
   .titulo { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .card.feito .titulo { text-decoration: line-through; color: var(--muted); }
   .duracao { font-size: 11px; color: var(--muted); margin-top: 1px; font-family: 'DM Mono', monospace; }
-  .acoes { display: flex; gap: 5px; flex-shrink: 0; }
-  .btn-acao { height: 28px; min-width: 28px; padding: 0 7px; border-radius: 7px; border: 1px solid var(--border); background: transparent; cursor: pointer; font-size: 12px; display: flex; align-items: center; gap: 4px; color: var(--muted); transition: all .18s; font-family: 'DM Sans', sans-serif; font-weight: 500; white-space: nowrap; }
-  .btn-feito:hover  { border-color: var(--green); color: var(--green);  background: #5cb88515; }
-  .btn-amanha:hover { border-color: var(--amber); color: var(--amber);  background: #e8a94615; }
-  .btn-editar:hover { border-color: #7ab4e8;      color: #7ab4e8;      background: #7ab4e815; }
-  .btn-lixo:hover   { border-color: var(--red);   color: var(--red);   background: #e05a5a15; }
-  .card.feito .btn-feito { border-color: var(--green); color: var(--green); background: #5cb88520; }
-  .btn-acao:disabled { opacity: .35; cursor: not-allowed; }
+  /* 3-dot menu */
+  .menu-wrap { position: relative; flex-shrink: 0; }
+  .btn-dots {
+    width: 30px; height: 34px; border-radius: 8px;
+    border: 1px solid transparent; background: transparent;
+    color: var(--muted); cursor: pointer; font-size: 18px;
+    display: grid; place-items: center; transition: all .18s;
+    letter-spacing: -.5px;
+  }
+  .btn-dots:hover { border-color: var(--border); color: var(--text); background: var(--bg); }
+  .btn-dots.aberto { border-color: var(--border); color: var(--text); background: var(--bg); }
+
+  .dropdown {
+    position: absolute; right: 0; top: calc(100% + 6px);
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; min-width: 170px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.35);
+    z-index: 50; overflow: hidden;
+    opacity: 0; transform: scale(.95) translateY(-4px);
+    pointer-events: none;
+    transition: opacity .15s, transform .15s;
+    transform-origin: top right;
+  }
+  .dropdown.aberto {
+    opacity: 1; transform: scale(1) translateY(0);
+    pointer-events: all;
+  }
+  .dd-item {
+    width: 100%; padding: 11px 14px; border: none;
+    background: transparent; color: var(--text);
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    text-align: left; cursor: pointer; display: flex;
+    align-items: center; gap: 10px; transition: background .15s;
+  }
+  .dd-item:hover { background: var(--bg); }
+  .dd-item .dd-icon { font-size: 14px; width: 16px; text-align: center; flex-shrink: 0; }
+  .dd-item.verde { color: var(--green); }
+  .dd-item.vermelho { color: var(--red); }
+  .dd-sep { height: 1px; background: var(--border); margin: 3px 0; }
 
   /* MODAIS */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.6); backdrop-filter: blur(4px); z-index: 100; display: flex; align-items: flex-end; opacity: 0; pointer-events: none; transition: opacity .25s; }
@@ -157,8 +188,37 @@
   .cat-select-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; background: var(--muted); }
   .cat-select-preview select { flex: 1; background: transparent; border: none; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; appearance: none; cursor: pointer; }
 
-  .empty { text-align: center; padding: 60px 24px; color: var(--muted); }
-  .empty .icon { font-size: 36px; margin-bottom: 12px; }
+  /* ── MINI CALENDÁRIO ─────────────────────────────────────── */
+  .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .cal-mes-ano { font-family: 'DM Serif Display', serif; font-size: 17px; }
+  .cal-nav { display: flex; gap: 6px; }
+  .cal-nav button { width: 28px; height: 28px; border-radius: 7px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; font-size: 13px; display: grid; place-items: center; transition: all .2s; }
+  .cal-nav button:hover { border-color: var(--amber); color: var(--amber); }
+
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+  .cal-dia-nome { text-align: center; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 4px 0 8px; }
+
+  .cal-dia {
+    aspect-ratio: 1; border-radius: 8px; border: none;
+    background: transparent; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 3px; transition: background .15s; position: relative;
+    font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text);
+    padding: 0;
+  }
+  .cal-dia:hover { background: var(--bg); }
+  .cal-dia.outro-mes { color: var(--muted); opacity: .4; }
+  .cal-dia.hoje { background: #e8a94620; color: var(--amber); font-weight: 600; }
+  .cal-dia.selecionado { background: var(--amber) !important; color: #0d0c0b !important; font-weight: 700; }
+  .cal-dia.selecionado .cal-dots span { background: #0d0c0b !important; }
+
+  .cal-dots { display: flex; gap: 2px; justify-content: center; height: 5px; align-items: center; }
+  .cal-dots span { width: 4px; height: 4px; border-radius: 50%; background: var(--amber); flex-shrink: 0; }
+  .cal-dots span.feito { background: var(--green); }
+  .cal-dots span.misto { background: var(--amber); }
+
+  .cal-loading { text-align: center; padding: 20px; color: var(--muted); font-size: 12px; }
+
   .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 20px; font-size: 13px; transition: transform .3s; z-index: 200; white-space: nowrap; }
   .toast.show { transform: translateX(-50%) translateY(0); }
   .toast.ok  { border-color: #5cb88555; color: var(--green); }
@@ -181,10 +241,26 @@
       <div class="offset-badge" id="offset-badge"></div>
     </div>
     <div class="header-btns">
+      <button class="btn-icon" id="btn-cal"   title="Calendário" onclick="togglePainel('painel-cal','btn-cal')">📅</button>
       <button class="btn-icon" id="btn-cats"  title="Categorias" onclick="togglePainel('painel-cats','btn-cats')">🏷️</button>
       <button class="btn-icon" id="btn-tema"  title="Tema"        onclick="togglePainel('painel-tema','btn-tema')">🎨</button>
       <button class="btn-add" title="Novo evento" onclick="abrirModalCriar()">+</button>
       <button class="btn-icon" id="btn-refresh" title="Atualizar" onclick="carregarAgenda()">↻</button>
+    </div>
+  </div>
+
+  <!-- PAINEL MINI CALENDÁRIO -->
+  <div class="painel" id="painel-cal">
+    <div class="cal-header">
+      <div class="cal-mes-ano" id="cal-mes-ano">—</div>
+      <div class="cal-nav">
+        <button onclick="navCal(-1)">‹</button>
+        <button onclick="navCalHoje()">●</button>
+        <button onclick="navCal(1)">›</button>
+      </div>
+    </div>
+    <div class="cal-grid" id="cal-grid">
+      <div class="cal-loading">Carregando...</div>
     </div>
   </div>
 
@@ -397,7 +473,124 @@ function atualizarDotEditar() {
   document.getElementById('editar-cat-dot').style.background = cor;
 }
 
-// ── TEMAS ─────────────────────────────────────────────────────
+// ── MINI CALENDÁRIO ───────────────────────────────────────────
+let calAno  = new Date().getFullYear();
+let calMes  = new Date().getMonth() + 1; // 1-12
+let calDados = {}; // cache: {'2026-5': {dias: {...}}}
+let calCarregando = false;
+
+async function abrirCal() {
+  // Sincroniza com o dia visualizado
+  const dVisto = new Date();
+  dVisto.setDate(dVisto.getDate() + offset);
+  calAno = dVisto.getFullYear();
+  calMes = dVisto.getMonth() + 1;
+  await renderCal();
+}
+
+function navCal(delta) {
+  calMes += delta;
+  if (calMes > 12) { calMes = 1;  calAno++; }
+  if (calMes < 1)  { calMes = 12; calAno--; }
+  renderCal();
+}
+
+function navCalHoje() {
+  calAno = new Date().getFullYear();
+  calMes = new Date().getMonth() + 1;
+  renderCal();
+}
+
+async function renderCal() {
+  const key = `${calAno}-${calMes}`;
+  const meses = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  document.getElementById('cal-mes-ano').textContent = `${meses[calMes-1]} ${calAno}`;
+
+  // Busca dados do mês se não tiver cache
+  if (!calDados[key]) {
+    document.getElementById('cal-grid').innerHTML = `<div class="cal-loading" style="grid-column:span 7">Carregando...</div>`;
+    try {
+      const data = await jsonp({ token: TOKEN, action: 'month', ano: calAno, mes: calMes });
+      if (data.error) throw new Error(data.error);
+      calDados[key] = data.dias || {};
+    } catch (e) {
+      calDados[key] = {};
+    }
+  }
+
+  desenharCal(calAno, calMes, calDados[key]);
+}
+
+function desenharCal(ano, mes, diasDados) {
+  const hoje = new Date();
+  const dVisto = new Date(); dVisto.setDate(dVisto.getDate() + offset);
+  const primeiroDia = new Date(ano, mes - 1, 1).getDay(); // 0=Dom
+  const totalDias   = new Date(ano, mes, 0).getDate();
+  const nomes = ['D','S','T','Q','Q','S','S'];
+
+  let html = nomes.map(n => `<div class="cal-dia-nome">${n}</div>`).join('');
+
+  // Dias do mês anterior pra preencher
+  const diasAntes = primeiroDia;
+  const totalAnterior = new Date(ano, mes - 1, 0).getDate();
+  for (let i = diasAntes - 1; i >= 0; i--) {
+    html += `<button class="cal-dia outro-mes">${totalAnterior - i}</button>`;
+  }
+
+  // Dias do mês atual
+  for (let d = 1; d <= totalDias; d++) {
+    const eHoje     = hoje.getFullYear()===ano && hoje.getMonth()===mes-1 && hoje.getDate()===d;
+    const eSelecion = dVisto.getFullYear()===ano && dVisto.getMonth()===mes-1 && dVisto.getDate()===d;
+    const info      = diasDados[d];
+
+    let cls = 'cal-dia';
+    if (eHoje)     cls += ' hoje';
+    if (eSelecion) cls += ' selecionado';
+
+    // Calcula offset deste dia em relação a hoje
+    const dataBtn = new Date(ano, mes - 1, d);
+    const diffDias = Math.round((dataBtn - new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate())) / 86400000);
+
+    let dots = '';
+    if (info && info.total > 0) {
+      const qtd = Math.min(info.total, 3);
+      const todoFeito = info.feitos === info.total;
+      const algumFeito = info.feitos > 0 && !todoFeito;
+      const dotCls = todoFeito ? 'feito' : (algumFeito ? 'misto' : '');
+      dots = `<div class="cal-dots">${Array(qtd).fill(`<span class="${dotCls}"></span>`).join('')}</div>`;
+    }
+
+    html += `<button class="cal-dia${cls.replace('cal-dia','')}" onclick="irParaDia(${diffDias})">${d}${dots}</button>`;
+  }
+
+  // Dias do próximo mês pra completar a grade
+  const totalCelulas = diasAntes + totalDias;
+  const diasDepois = totalCelulas % 7 === 0 ? 0 : 7 - (totalCelulas % 7);
+  for (let d = 1; d <= diasDepois; d++) {
+    html += `<button class="cal-dia outro-mes">${d}</button>`;
+  }
+
+  document.getElementById('cal-grid').innerHTML = html;
+}
+
+function irParaDia(diffDias) {
+  offset = diffDias;
+  // Fecha o calendário e recarrega
+  togglePainel('painel-cal', 'btn-cal');
+  carregarAgenda();
+}
+
+// Invalida cache do mês atual quando criar/mover/deletar evento
+function invalidarCacheCal() {
+  const key = `${calAno}-${calMes}`;
+  delete calDados[key];
+  // Também invalida o mês visualizado (pode ser diferente)
+  const dVisto = new Date(); dVisto.setDate(dVisto.getDate() + offset);
+  const keyVisto = `${dVisto.getFullYear()}-${dVisto.getMonth()+1}`;
+  delete calDados[keyVisto];
+}
+
+
 const TEMAS = [
   { id: 'escuro',  nome: 'Escuro',  bg: '#0d0c0b', surface: '#181614', border: '#2a2724', text: '#f0ebe3', muted: '#7a746e' },
   { id: 'grafite', nome: 'Grafite', bg: '#141414', surface: '#1e1e1e', border: '#2e2e2e', text: '#e8e8e8', muted: '#777777' },
@@ -429,12 +622,15 @@ function aplicarTema(id, salvar = true) {
 }
 function togglePainel(painelId, btnId) {
   const painel = document.getElementById(painelId), btn = document.getElementById(btnId);
-  const allPaineis = ['painel-cats','painel-tema'];
+  const allPaineis = ['painel-cal','painel-cats','painel-tema'];
   allPaineis.forEach(id => { if (id !== painelId) { document.getElementById(id).style.display = 'none'; } });
   document.querySelectorAll('.btn-icon').forEach(b => b.classList.remove('active'));
   const aberto = painel.style.display === 'block';
   painel.style.display = aberto ? 'none' : 'block';
-  if (!aberto) btn.classList.add('active');
+  if (!aberto) {
+    btn.classList.add('active');
+    if (painelId === 'painel-cal') abrirCal();
+  }
 }
 
 // ── MODAIS ────────────────────────────────────────────────────
@@ -487,6 +683,7 @@ async function criarEvento() {
     const res = await jsonp(params);
     if (res.error) throw new Error(res.error);
     fecharModal('modal-criar'); toast('✅ Evento criado!', 'ok');
+    invalidarCacheCal();
     const dC = new Date(data + 'T12:00:00'), dV = new Date(); dV.setDate(dV.getDate() + offset);
     if (dC.toDateString() === dV.toDateString()) carregarAgenda();
   } catch (e) { toast('Erro: ' + e.message, 'err'); }
@@ -526,24 +723,51 @@ async function confirmarDeletar() {
     if (data.error) throw new Error(data.error);
     eventos.splice(idxAtivo, 1); renderizarLista();
     fecharModal('modal-deletar'); toast('🗑 Excluído', 'ok');
+    invalidarCacheCal();
   } catch (e) { toast('Erro: ' + e.message, 'err'); }
   finally { btn.disabled = false; btn.textContent = '🗑 Excluir permanentemente'; }
 }
 
-async function acao(tipo, idx, btn) {
+// ── MENU 3 PONTOS ─────────────────────────────────────────────
+function toggleMenu(e, btn) {
+  e.stopPropagation();
+  const dropdown = btn.nextElementSibling;
+  const jaAberto = dropdown.classList.contains('aberto');
+  fecharMenus();
+  if (!jaAberto) {
+    dropdown.classList.add('aberto');
+    btn.classList.add('aberto');
+    // Garante que o dropdown não saia da tela
+    requestAnimationFrame(() => {
+      const rect = dropdown.getBoundingClientRect();
+      if (rect.right > window.innerWidth) {
+        dropdown.style.right = 'auto';
+        dropdown.style.left  = '0';
+        dropdown.style.transformOrigin = 'top left';
+      }
+    });
+  }
+}
+function fecharMenus() {
+  document.querySelectorAll('.dropdown.aberto').forEach(d => d.classList.remove('aberto'));
+  document.querySelectorAll('.btn-dots.aberto').forEach(b => b.classList.remove('aberto'));
+}
+document.addEventListener('click', fecharMenus);
+
+// ── AÇÕES ─────────────────────────────────────────────────────
+async function acaoMenu(tipo, idx, btn) {
+  fecharMenus();
   const ev = eventos[idx];
-  const botoes = btn.closest('.card').querySelectorAll('.btn-acao');
-  botoes.forEach(b => b.disabled = true);
   try {
     const data = await jsonp({ token: TOKEN, action: tipo, eventId: ev.id });
     if (data.error) throw new Error(data.error);
     if (tipo === 'done')     eventos[idx].feito = true;
     if (tipo === 'undone')   eventos[idx].feito = false;
-    if (tipo === 'tomorrow') eventos.splice(idx, 1);
+    if (tipo === 'tomorrow') { eventos.splice(idx, 1); invalidarCacheCal(); }
     renderizarLista();
-    const msgs = { done: '✅ Feito', undone: '↩ Desmarcado', tomorrow: '📅 Movido para amanhã' };
+    const msgs = { done: '✅ Marcado como feito', undone: '↩ Desmarcado', tomorrow: '📅 Movido para amanhã' };
     toast(msgs[tipo], 'ok');
-  } catch (e) { toast('Erro: ' + e.message, 'err'); botoes.forEach(b => b.disabled = false); }
+  } catch (e) { toast('Erro: ' + e.message, 'err'); }
 }
 
 // ── JSONP ─────────────────────────────────────────────────────
@@ -636,7 +860,10 @@ function cardHTML(ev, idx) {
   const catBadge  = ev.categoria ? `<div class="card-cat-badge" style="--cat-color:${cor}">${ev.categoria}</div>` : '';
   const tempoHTML = ev.diaInteiro ? `<div class="tag-dia">DIA<br>INTEIRO</div>` : `<div class="hora">${formatarHora(ev.inicio)}</div><div class="hora-fim">${formatarHora(ev.fim)}</div>`;
   const dur       = (!ev.diaInteiro && ev.inicio && ev.fim) ? `<div class="duracao">${duracaoMin(ev.inicio, ev.fim)}</div>` : '';
-  const btnFeito  = ev.feito ? `<button class="btn-acao btn-feito" onclick="acao('undone',${idx},this)">✅</button>` : `<button class="btn-acao btn-feito" onclick="acao('done',${idx},this)">○</button>`;
+
+  const labelFeito = ev.feito ? 'Desmarcar como feito' : 'Marcar como feito';
+  const iconFeito  = ev.feito ? '↩' : '○';
+  const acaoFeito  = ev.feito ? 'undone' : 'done';
 
   return `
   <div class="card ${feitoCls}" style="--cat-color:${cor}">
@@ -646,11 +873,23 @@ function cardHTML(ev, idx) {
       <div class="titulo" title="${titulo}">${titulo}</div>
       ${catBadge}${dur}
     </div>
-    <div class="acoes">
-      ${btnFeito}
-      <button class="btn-acao btn-amanha" onclick="acao('tomorrow',${idx},this)" title="Amanhã">→</button>
-      <button class="btn-acao btn-editar" onclick="abrirModalEditar(${idx})" title="Editar">✏️</button>
-      <button class="btn-acao btn-lixo"   onclick="abrirModalDeletar(${idx})" title="Excluir">🗑</button>
+    <div class="menu-wrap">
+      <button class="btn-dots" onclick="toggleMenu(event, this)">⋮</button>
+      <div class="dropdown">
+        <button class="dd-item verde" onclick="acaoMenu('${acaoFeito}',${idx},this)">
+          <span class="dd-icon">${iconFeito}</span>${labelFeito}
+        </button>
+        <button class="dd-item" onclick="acaoMenu('tomorrow',${idx},this)">
+          <span class="dd-icon">→</span>Mover para amanhã
+        </button>
+        <div class="dd-sep"></div>
+        <button class="dd-item" onclick="fecharMenus();abrirModalEditar(${idx})">
+          <span class="dd-icon">✏️</span>Editar
+        </button>
+        <button class="dd-item vermelho" onclick="fecharMenus();abrirModalDeletar(${idx})">
+          <span class="dd-icon">🗑</span>Excluir
+        </button>
+      </div>
     </div>
   </div>`;
 }
