@@ -20,183 +20,164 @@
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    min-height: 100vh;
-    padding: 0 0 80px;
+    background: var(--bg); color: var(--text);
+    font-family: 'DM Sans', sans-serif; font-size: 15px;
+    min-height: 100vh; padding: 0 0 80px;
     transition: background .3s, color .3s;
   }
 
-  .header {
-    padding: 28px 20px 20px;
-    border-bottom: 1px solid var(--border);
-  }
-  .header-top {
-    display: flex; align-items: flex-start;
-    justify-content: space-between; margin-bottom: 16px;
-  }
-  .weekday {
-    font-family: 'DM Mono', monospace; font-size: 11px;
-    letter-spacing: .15em; text-transform: uppercase;
-    color: var(--amber); margin-bottom: 4px;
-  }
-  .date-full {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(26px, 6vw, 38px); line-height: 1.1;
-  }
+  .header { padding: 28px 20px 20px; border-bottom: 1px solid var(--border); }
+  .header-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+  .weekday { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--amber); margin-bottom: 4px; }
+  .date-full { font-family: 'DM Serif Display', serif; font-size: clamp(26px, 6vw, 38px); line-height: 1.1; }
   .subtitle { font-size: 12px; color: var(--muted); margin-top: 5px; }
   .offset-badge {
-    display: none;
-    font-family: 'DM Mono', monospace; font-size: 10px;
+    display: none; font-family: 'DM Mono', monospace; font-size: 10px;
     letter-spacing: .1em; text-transform: uppercase;
     color: var(--amber); background: #e8a94615;
-    border: 1px solid #e8a94630; border-radius: 6px;
-    padding: 3px 8px; margin-top: 6px;
+    border: 1px solid #e8a94630; border-radius: 6px; padding: 3px 8px; margin-top: 6px;
   }
-
   .header-btns { display: flex; gap: 8px; }
   .btn-icon {
     width: 36px; height: 36px; border-radius: 9px;
     border: 1px solid var(--border); background: var(--surface);
     color: var(--muted); cursor: pointer;
-    display: grid; place-items: center; font-size: 16px;
-    transition: all .2s;
+    display: grid; place-items: center; font-size: 16px; transition: all .2s;
   }
   .btn-icon:hover { border-color: var(--amber); color: var(--amber); }
   .btn-icon.loading { animation: spin 1s linear infinite; }
   .btn-icon.active  { border-color: var(--amber); color: var(--amber); background: #e8a94615; }
+  .btn-add {
+    width: 36px; height: 36px; border-radius: 9px;
+    border: 1px solid var(--amber); background: var(--amber);
+    color: #0d0c0b; cursor: pointer;
+    display: grid; place-items: center; font-size: 20px;
+    font-weight: 300; transition: all .2s; line-height: 1;
+  }
+  .btn-add:hover { background: #d4962f; border-color: #d4962f; }
 
   /* TEMA PANEL */
-  .tema-panel {
-    margin-top: 14px;
-    padding: 14px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    display: none;
-  }
-  .tema-titulo {
-    font-family: 'DM Mono', monospace; font-size: 10px;
-    letter-spacing: .12em; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 12px;
-  }
+  .tema-panel { margin-top: 14px; padding: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; display: none; }
+  .tema-titulo { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
   .tema-grid { display: flex; gap: 10px; flex-wrap: wrap; }
-  .tema-btn {
-    display: flex; flex-direction: column; align-items: center; gap: 6px;
-    cursor: pointer; border: none; background: none; padding: 0;
-  }
-  .tema-circulo {
-    width: 36px; height: 36px; border-radius: 50%;
-    border: 2px solid transparent;
-    transition: all .2s; position: relative;
-  }
+  .tema-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; border: none; background: none; padding: 0; }
+  .tema-circulo { width: 36px; height: 36px; border-radius: 50%; border: 2px solid transparent; transition: all .2s; position: relative; }
   .tema-circulo:hover { transform: scale(1.1); }
   .tema-btn.ativo .tema-circulo { border-color: var(--amber); }
-  .tema-btn.ativo .tema-circulo::after {
-    content: '✓';
-    position: absolute; inset: 0;
-    display: grid; place-items: center;
-    font-size: 14px; color: white;
-    text-shadow: 0 1px 3px rgba(0,0,0,.5);
-  }
+  .tema-btn.ativo .tema-circulo::after { content: '✓'; position: absolute; inset: 0; display: grid; place-items: center; font-size: 14px; color: white; text-shadow: 0 1px 3px rgba(0,0,0,.5); }
   .tema-label { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; }
 
   /* NAVEGAÇÃO */
-  .nav-dias { display: flex; align-items: center; gap: 8px; }
-  .btn-nav {
-    height: 34px; padding: 0 12px; border-radius: 8px;
-    border: 1px solid var(--border); background: var(--surface);
-    color: var(--muted); cursor: pointer; font-size: 13px;
-    font-family: 'DM Sans', sans-serif;
-    display: flex; align-items: center; gap: 6px;
-    transition: all .2s; white-space: nowrap;
-  }
+  .nav-dias { display: flex; gap: 8px; margin-top: 14px; }
+  .btn-nav { height: 34px; padding: 0 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); cursor: pointer; font-size: 13px; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 6px; transition: all .2s; white-space: nowrap; }
   .btn-nav:hover { border-color: var(--amber); color: var(--amber); }
   .btn-nav.hoje  { border-color: var(--amber); color: var(--amber); background: #e8a94612; }
 
   /* PROGRESS */
   .progress-wrap { padding: 14px 20px 0; display: none; }
-  .progress-row {
-    display: flex; justify-content: space-between;
-    font-size: 11px; color: var(--muted); margin-bottom: 7px;
-    font-family: 'DM Mono', monospace;
-  }
+  .progress-row { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 7px; font-family: 'DM Mono', monospace; }
   .progress-bar { height: 3px; background: var(--border); border-radius: 99px; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--amber); border-radius: 99px; transition: width .6s; }
 
-  /* LISTA */
+  /* CARDS */
   .list { padding: 16px 14px 0; display: flex; flex-direction: column; gap: 9px; }
-
-  /* CARD */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 13px 13px 13px 15px;
-    display: flex; align-items: center; gap: 12px;
-    position: relative; overflow: hidden; transition: opacity .3s;
-  }
-  .card::before {
-    content: ''; position: absolute;
-    left: 0; top: 0; bottom: 0; width: 3px;
-    background: var(--amber); border-radius: 3px 0 0 3px; transition: background .3s;
-  }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 13px 13px 13px 15px; display: flex; align-items: center; gap: 12px; position: relative; overflow: hidden; transition: opacity .3s; }
+  .card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--amber); border-radius: 3px 0 0 3px; transition: background .3s; }
   .card.feito { opacity: .5; }
   .card.feito::before { background: var(--green); }
-
   .time-col { flex-shrink: 0; width: 50px; text-align: right; }
   .hora { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--amber); line-height: 1.2; }
   .card.feito .hora { color: var(--green); }
   .hora-fim { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
   .tag-dia { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); line-height: 1.4; }
-
   .divider { width: 1px; height: 34px; background: var(--border); flex-shrink: 0; }
   .info { flex: 1; min-width: 0; }
   .titulo { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .card.feito .titulo { text-decoration: line-through; color: var(--muted); }
   .duracao { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'DM Mono', monospace; }
-
   .acoes { display: flex; gap: 7px; flex-shrink: 0; }
-  .btn-acao {
-    height: 30px; min-width: 30px; padding: 0 9px;
-    border-radius: 7px; border: 1px solid var(--border);
-    background: transparent; cursor: pointer; font-size: 12px;
-    display: flex; align-items: center; gap: 4px;
-    color: var(--muted); transition: all .18s;
-    font-family: 'DM Sans', sans-serif; font-weight: 500; white-space: nowrap;
-  }
+  .btn-acao { height: 30px; min-width: 30px; padding: 0 9px; border-radius: 7px; border: 1px solid var(--border); background: transparent; cursor: pointer; font-size: 12px; display: flex; align-items: center; gap: 4px; color: var(--muted); transition: all .18s; font-family: 'DM Sans', sans-serif; font-weight: 500; white-space: nowrap; }
   .btn-feito:hover  { border-color: var(--green); color: var(--green); background: #5cb88515; }
   .btn-amanha:hover { border-color: var(--amber); color: var(--amber); background: #e8a94615; }
   .card.feito .btn-feito { border-color: var(--green); color: var(--green); background: #5cb88520; }
   .btn-acao:disabled { opacity: .35; cursor: not-allowed; }
 
+  /* ── MODAL CRIAR EVENTO ───────────────────────────────────── */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.6);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    display: flex; align-items: flex-end;
+    opacity: 0; pointer-events: none;
+    transition: opacity .25s;
+  }
+  .modal-overlay.aberto { opacity: 1; pointer-events: all; }
+
+  .modal {
+    width: 100%; background: var(--surface);
+    border-radius: 18px 18px 0 0;
+    border-top: 1px solid var(--border);
+    padding: 24px 20px 40px;
+    transform: translateY(100%);
+    transition: transform .3s cubic-bezier(.4,0,.2,1);
+  }
+  .modal-overlay.aberto .modal { transform: translateY(0); }
+
+  .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+  .modal-titulo { font-family: 'DM Serif Display', serif; font-size: 20px; }
+  .btn-fechar { width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; font-size: 16px; display: grid; place-items: center; transition: all .2s; }
+  .btn-fechar:hover { border-color: var(--red); color: var(--red); }
+
+  .campo { margin-bottom: 16px; }
+  .campo label { display: block; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
+  .campo input[type="text"],
+  .campo input[type="date"],
+  .campo input[type="time"] {
+    width: 100%; height: 42px; padding: 0 14px;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 9px; color: var(--text);
+    font-family: 'DM Sans', sans-serif; font-size: 14px;
+    outline: none; transition: border-color .2s;
+    color-scheme: dark;
+  }
+  .campo input:focus { border-color: var(--amber); }
+
+  .horarios { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* Toggle dia inteiro */
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 9px; }
+  .toggle-label { font-size: 14px; color: var(--text); }
+  .toggle {
+    width: 44px; height: 26px; border-radius: 13px;
+    background: var(--border); border: none; cursor: pointer;
+    position: relative; transition: background .2s; flex-shrink: 0;
+  }
+  .toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: white; transition: transform .2s; }
+  .toggle.on { background: var(--amber); }
+  .toggle.on::after { transform: translateX(18px); }
+
+  .btn-criar {
+    width: 100%; height: 46px; border-radius: 10px;
+    border: none; background: var(--amber); color: #0d0c0b;
+    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+    cursor: pointer; margin-top: 6px; transition: background .2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-criar:hover   { background: #d4962f; }
+  .btn-criar:disabled { opacity: .5; cursor: not-allowed; }
+
+  /* MISC */
   .empty { text-align: center; padding: 60px 24px; color: var(--muted); }
   .empty .icon { font-size: 36px; margin-bottom: 12px; }
-
-  .toast {
-    position: fixed; bottom: 24px; left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 10px; padding: 10px 20px;
-    font-size: 13px; transition: transform .3s; z-index: 999; white-space: nowrap;
-  }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 20px; font-size: 13px; transition: transform .3s; z-index: 200; white-space: nowrap; }
   .toast.show { transform: translateX(-50%) translateY(0); }
   .toast.ok  { border-color: #5cb88555; color: var(--green); }
   .toast.err { border-color: #e05a5a55; color: var(--red); }
-
   @keyframes spin { to { transform: rotate(360deg); } }
-  .skeleton {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); height: 68px;
-    animation: pulse 1.4s ease-in-out infinite;
-  }
+  .skeleton { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); height: 68px; animation: pulse 1.4s ease-in-out infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-  .secao-titulo {
-    padding: 18px 20px 5px; font-family: 'DM Mono', monospace;
-    font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
-  }
+  .secao-titulo { padding: 18px 20px 5px; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
   .sep { margin: 4px 20px; border: none; border-top: 1px solid var(--border); }
 </style>
 </head>
@@ -212,18 +193,17 @@
     </div>
     <div class="header-btns">
       <button class="btn-icon" id="btn-tema" title="Tema" onclick="toggleTemas()">🎨</button>
+      <button class="btn-add" title="Novo evento" onclick="abrirModal()">+</button>
       <button class="btn-icon" id="btn-refresh" title="Atualizar" onclick="carregarAgenda()">↻</button>
     </div>
   </div>
 
-  <!-- PAINEL DE TEMAS -->
   <div class="tema-panel" id="tema-panel">
     <div class="tema-titulo">Cor do fundo</div>
     <div class="tema-grid" id="tema-grid"></div>
   </div>
 
-  <!-- NAVEGAÇÃO DE DIAS -->
-  <div class="nav-dias" style="margin-top:14px">
+  <div class="nav-dias">
     <button class="btn-nav" onclick="mudarDia(-1)">← Anterior</button>
     <button class="btn-nav hoje" id="btn-hoje" onclick="irParaHoje()">● Hoje</button>
     <button class="btn-nav" onclick="mudarDia(1)">Próximo →</button>
@@ -239,27 +219,73 @@
 </div>
 
 <div id="lista-container"></div>
+
+<!-- ── MODAL NOVO EVENTO ────────────────────────────────────── -->
+<div class="modal-overlay" id="modal-overlay" onclick="fecharModalFora(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-titulo">Novo evento</div>
+      <button class="btn-fechar" onclick="fecharModal()">✕</button>
+    </div>
+
+    <div class="campo">
+      <label>Título</label>
+      <input type="text" id="ev-titulo" placeholder="Ex: Reunião com cliente" autocomplete="off">
+    </div>
+
+    <div class="campo">
+      <label>Data</label>
+      <input type="date" id="ev-data">
+    </div>
+
+    <div class="campo">
+      <div class="toggle-row">
+        <span class="toggle-label">Dia inteiro</span>
+        <button class="toggle on" id="toggle-diainteiro" onclick="toggleDiaInteiro()"></button>
+      </div>
+    </div>
+
+    <div class="campo" id="campo-horarios" style="display:none">
+      <label>Horário</label>
+      <div class="horarios">
+        <div>
+          <label style="margin-bottom:5px">Início</label>
+          <input type="time" id="ev-inicio" value="08:00">
+        </div>
+        <div>
+          <label style="margin-bottom:5px">Fim</label>
+          <input type="time" id="ev-fim" value="09:00">
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-criar" id="btn-criar" onclick="criarEvento()">
+      <span>Adicionar ao calendário</span>
+    </button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbyjcflPjQpR9nLmv-uv8vxp7jw8eUXpIjxpm_4tU5XUop61nfAMEFScFzqO06zno8Ov/exec';
 const TOKEN   = 'arqluz2026';
 
-let eventos = [];
-let offset  = 0;
+let eventos   = [];
+let offset    = 0;
+let diaInteiro = true;
 
 // ── TEMAS ─────────────────────────────────────────────────────
 const TEMAS = [
-  { id: 'escuro',    nome: 'Escuro',   bg: '#0d0c0b', surface: '#181614', border: '#2a2724', text: '#f0ebe3', muted: '#7a746e' },
-  { id: 'grafite',   nome: 'Grafite',  bg: '#141414', surface: '#1e1e1e', border: '#2e2e2e', text: '#e8e8e8', muted: '#777777' },
-  { id: 'azul',      nome: 'Azul',     bg: '#0a0f1a', surface: '#111827', border: '#1e2d45', text: '#e2eaf5', muted: '#607494' },
-  { id: 'verde',     nome: 'Verde',    bg: '#0a1210', surface: '#111a16', border: '#1a2e22', text: '#e0ede6', muted: '#4d7a5e' },
-  { id: 'roxo',      nome: 'Roxo',     bg: '#0f0a1a', surface: '#171025', border: '#261c3a', text: '#ede8f5', muted: '#7060a0' },
-  { id: 'branco',    nome: 'Branco',   bg: '#f5f5f2', surface: '#ffffff', border: '#e0ddd8', text: '#1a1816', muted: '#9a9590' },
-  { id: 'creme',     nome: 'Creme',    bg: '#f2ede4', surface: '#faf7f1', border: '#ddd5c5', text: '#1e1a14', muted: '#9a8e7a' },
-  { id: 'sepia',     nome: 'Sépia',    bg: '#1a1408', surface: '#241c0e', border: '#36280f', text: '#f0e4c8', muted: '#8a7450' },
+  { id: 'escuro',  nome: 'Escuro',  bg: '#0d0c0b', surface: '#181614', border: '#2a2724', text: '#f0ebe3', muted: '#7a746e' },
+  { id: 'grafite', nome: 'Grafite', bg: '#141414', surface: '#1e1e1e', border: '#2e2e2e', text: '#e8e8e8', muted: '#777777' },
+  { id: 'azul',    nome: 'Azul',    bg: '#0a0f1a', surface: '#111827', border: '#1e2d45', text: '#e2eaf5', muted: '#607494' },
+  { id: 'verde',   nome: 'Verde',   bg: '#0a1210', surface: '#111a16', border: '#1a2e22', text: '#e0ede6', muted: '#4d7a5e' },
+  { id: 'roxo',    nome: 'Roxo',    bg: '#0f0a1a', surface: '#171025', border: '#261c3a', text: '#ede8f5', muted: '#7060a0' },
+  { id: 'branco',  nome: 'Branco',  bg: '#f5f5f2', surface: '#ffffff', border: '#e0ddd8', text: '#1a1816', muted: '#9a9590' },
+  { id: 'creme',   nome: 'Creme',   bg: '#f2ede4', surface: '#faf7f1', border: '#ddd5c5', text: '#1e1a14', muted: '#9a8e7a' },
+  { id: 'sepia',   nome: 'Sépia',   bg: '#1a1408', surface: '#241c0e', border: '#36280f', text: '#f0e4c8', muted: '#8a7450' },
 ];
-
 let temaAtual = localStorage.getItem('agenda-tema') || 'escuro';
 
 function iniciarTemas() {
@@ -270,7 +296,6 @@ function iniciarTemas() {
       <span class="tema-label">${t.nome}</span>
     </button>
   `).join('');
-
   aplicarTema(temaAtual, false);
 }
 
@@ -278,19 +303,13 @@ function aplicarTema(id, salvar = true) {
   const t = TEMAS.find(x => x.id === id);
   if (!t) return;
   temaAtual = id;
-
   const r = document.documentElement.style;
   r.setProperty('--bg',      t.bg);
   r.setProperty('--surface', t.surface);
   r.setProperty('--border',  t.border);
   r.setProperty('--text',    t.text);
   r.setProperty('--muted',   t.muted);
-
-  if (salvar) {
-    localStorage.setItem('agenda-tema', id);
-    iniciarTemas(); // atualiza os círculos
-  }
-  toast('Tema: ' + t.nome, 'ok');
+  if (salvar) { localStorage.setItem('agenda-tema', id); iniciarTemas(); toast('Tema: ' + t.nome, 'ok'); }
 }
 
 function toggleTemas() {
@@ -301,22 +320,83 @@ function toggleTemas() {
   btn.classList.toggle('active', !aberto);
 }
 
+// ── MODAL ─────────────────────────────────────────────────────
+function abrirModal() {
+  // Preenche data com o dia atual visualizado
+  const d = new Date();
+  d.setDate(d.getDate() + offset);
+  const iso = d.toISOString().slice(0, 10);
+  document.getElementById('ev-data').value   = iso;
+  document.getElementById('ev-titulo').value = '';
+  diaInteiro = true;
+  document.getElementById('toggle-diainteiro').className = 'toggle on';
+  document.getElementById('campo-horarios').style.display = 'none';
+  document.getElementById('modal-overlay').classList.add('aberto');
+  setTimeout(() => document.getElementById('ev-titulo').focus(), 350);
+}
+
+function fecharModal() {
+  document.getElementById('modal-overlay').classList.remove('aberto');
+}
+
+function fecharModalFora(e) {
+  if (e.target === document.getElementById('modal-overlay')) fecharModal();
+}
+
+function toggleDiaInteiro() {
+  diaInteiro = !diaInteiro;
+  document.getElementById('toggle-diainteiro').className = 'toggle' + (diaInteiro ? ' on' : '');
+  document.getElementById('campo-horarios').style.display = diaInteiro ? 'none' : 'block';
+}
+
+async function criarEvento() {
+  const titulo = document.getElementById('ev-titulo').value.trim();
+  const data   = document.getElementById('ev-data').value;
+  if (!titulo) { toast('Digite um título', 'err'); document.getElementById('ev-titulo').focus(); return; }
+  if (!data)   { toast('Escolha uma data', 'err'); return; }
+
+  const btn = document.getElementById('btn-criar');
+  btn.disabled = true;
+  btn.querySelector('span').textContent = 'Salvando...';
+
+  try {
+    const params = { token: TOKEN, action: 'create', titulo, data, diaInteiro: String(diaInteiro) };
+    if (!diaInteiro) {
+      params.horaInicio = document.getElementById('ev-inicio').value;
+      params.horaFim    = document.getElementById('ev-fim').value;
+    }
+
+    const res = await jsonp(params);
+    if (res.error) throw new Error(res.error);
+
+    fecharModal();
+    toast('✅ Evento criado!', 'ok');
+
+    // Se criou no dia visualizado, recarrega
+    const dCriado = new Date(data + 'T12:00:00');
+    const dVisto  = new Date(); dVisto.setDate(dVisto.getDate() + offset);
+    if (dCriado.toDateString() === dVisto.toDateString()) carregarAgenda();
+  } catch (e) {
+    toast('Erro: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false;
+    btn.querySelector('span').textContent = 'Adicionar ao calendário';
+  }
+}
+
 // ── JSONP ─────────────────────────────────────────────────────
 function jsonp(params) {
   return new Promise((resolve, reject) => {
     const cbName = '_cb_' + Date.now() + '_' + Math.random().toString(36).slice(2);
     const timeout = setTimeout(() => { delete window[cbName]; reject(new Error('Timeout')); }, 12000);
-
     window[cbName] = function(data) {
       clearTimeout(timeout);
       delete window[cbName];
       if (script.parentNode) script.parentNode.removeChild(script);
       resolve(data);
     };
-
     const qs = Object.entries({ ...params, callback: cbName })
       .map(([k, v]) => encodeURIComponent(k) + '=' + encodeURIComponent(v)).join('&');
-
     const script = document.createElement('script');
     script.src = API_URL + '?' + qs;
     script.onerror = () => { clearTimeout(timeout); delete window[cbName]; reject(new Error('Erro de rede')); };
@@ -328,6 +408,8 @@ function jsonp(params) {
 document.addEventListener('DOMContentLoaded', () => {
   iniciarTemas();
   carregarAgenda();
+  // Fechar modal com ESC
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharModal(); });
 });
 
 // ── NAVEGAÇÃO ─────────────────────────────────────────────────
@@ -335,13 +417,11 @@ function mudarDia(delta) { offset += delta; carregarAgenda(); }
 function irParaHoje()    { offset = 0;       carregarAgenda(); }
 
 function atualizarHeader(off) {
-  const d = new Date();
-  d.setDate(d.getDate() + off);
+  const d = new Date(); d.setDate(d.getDate() + off);
   const semana = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
   const meses  = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
   document.getElementById('weekday').textContent   = semana[d.getDay()];
   document.getElementById('date-full').textContent = `${d.getDate()} de ${meses[d.getMonth()]}`;
-
   const badge = document.getElementById('offset-badge');
   const hoje  = document.getElementById('btn-hoje');
   if (off === 0) {
@@ -379,11 +459,8 @@ function renderizarLista() {
   const container = document.getElementById('lista-container');
   const total  = eventos.length;
   const feitos = eventos.filter(e => e.feito).length;
-
   document.getElementById('subtitle').textContent =
-    total === 0 ? 'Nenhum evento'
-    : `${total} evento${total > 1 ? 's' : ''} · ${feitos} concluído${feitos !== 1 ? 's' : ''}`;
-
+    total === 0 ? 'Nenhum evento' : `${total} evento${total > 1 ? 's' : ''} · ${feitos} concluído${feitos !== 1 ? 's' : ''}`;
   if (total > 0) {
     const pct = Math.round(feitos / total * 100);
     document.getElementById('progress-wrap').style.display = 'block';
@@ -393,24 +470,21 @@ function renderizarLista() {
   } else {
     document.getElementById('progress-wrap').style.display = 'none';
   }
-
   if (total === 0) {
-    container.innerHTML = `<div class="empty"><div class="icon">🌿</div><div class="msg">Nenhum evento neste dia.</div></div>`;
+    container.innerHTML = `<div class="empty"><div class="icon">🌿</div><div class="msg">Nenhum evento neste dia.<br><br><button onclick="abrirModal()" style="margin-top:8px;padding:10px 20px;border-radius:8px;border:1px solid var(--amber);background:transparent;color:var(--amber);cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif">+ Adicionar evento</button></div></div>`;
     return;
   }
-
   const comHora    = eventos.filter(e => !e.diaInteiro);
-  const diaInteiro = eventos.filter(e =>  e.diaInteiro);
+  const diaInteiroEvs = eventos.filter(e => e.diaInteiro);
   let html = '';
-
-  if (diaInteiro.length) {
+  if (diaInteiroEvs.length) {
     html += `<p class="secao-titulo">Dia inteiro</p><div class="list">`;
-    diaInteiro.forEach(ev => { html += cardHTML(ev, eventos.indexOf(ev)); });
+    diaInteiroEvs.forEach(ev => { html += cardHTML(ev, eventos.indexOf(ev)); });
     html += `</div>`;
     if (comHora.length) html += `<hr class="sep">`;
   }
   if (comHora.length) {
-    if (diaInteiro.length) html += `<p class="secao-titulo">Horários</p>`;
+    if (diaInteiroEvs.length) html += `<p class="secao-titulo">Horários</p>`;
     html += `<div class="list">`;
     comHora.forEach(ev => { html += cardHTML(ev, eventos.indexOf(ev)); });
     html += `</div>`;
@@ -419,25 +493,20 @@ function renderizarLista() {
 }
 
 function cardHTML(ev, idx) {
-  const feitoCls = ev.feito ? 'feito' : '';
-  const titulo   = ev.titulo.replace(/^✅ /, '');
+  const feitoCls  = ev.feito ? 'feito' : '';
+  const titulo    = ev.titulo.replace(/^✅ /, '');
   const tempoHTML = ev.diaInteiro
     ? `<div class="tag-dia">DIA<br>INTEIRO</div>`
     : `<div class="hora">${formatarHora(ev.inicio)}</div><div class="hora-fim">${formatarHora(ev.fim)}</div>`;
-  const dur = (!ev.diaInteiro && ev.inicio && ev.fim)
-    ? `<div class="duracao">${duracaoMin(ev.inicio, ev.fim)}</div>` : '';
+  const dur = (!ev.diaInteiro && ev.inicio && ev.fim) ? `<div class="duracao">${duracaoMin(ev.inicio, ev.fim)}</div>` : '';
   const btnFeito = ev.feito
     ? `<button class="btn-acao btn-feito" onclick="acao('undone',${idx},this)">✅ Feito</button>`
     : `<button class="btn-acao btn-feito" onclick="acao('done',${idx},this)">○ Feito</button>`;
-
   return `
   <div class="card ${feitoCls}">
     <div class="time-col">${tempoHTML}</div>
     <div class="divider"></div>
-    <div class="info">
-      <div class="titulo" title="${titulo}">${titulo}</div>
-      ${dur}
-    </div>
+    <div class="info"><div class="titulo" title="${titulo}">${titulo}</div>${dur}</div>
     <div class="acoes">
       ${btnFeito}
       <button class="btn-acao btn-amanha" onclick="acao('tomorrow',${idx},this)">→ Amanhã</button>
@@ -478,9 +547,7 @@ function duracaoMin(i, f) {
 }
 function mostrarSkeletons() {
   document.getElementById('lista-container').innerHTML = `<div class="list">
-    <div class="skeleton"></div>
-    <div class="skeleton" style="opacity:.7"></div>
-    <div class="skeleton" style="opacity:.4"></div>
+    <div class="skeleton"></div><div class="skeleton" style="opacity:.7"></div><div class="skeleton" style="opacity:.4"></div>
   </div>`;
 }
 let toastTimer;
