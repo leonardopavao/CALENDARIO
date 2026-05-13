@@ -97,7 +97,7 @@
 
   /* CARDS */
   .list { padding: 16px 14px 0; display: flex; flex-direction: column; gap: 9px; }
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 13px 10px 13px 15px; display: flex; align-items: center; gap: 10px; position: relative; overflow: hidden; transition: opacity .3s; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 13px 10px 13px 15px; display: flex; align-items: center; gap: 10px; position: relative; transition: opacity .3s; }
   .card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--cat-color, var(--amber)); border-radius: 3px 0 0 3px; transition: background .3s; }
   .card.feito { opacity: .5; }
   .card.feito::before { background: var(--green) !important; }
